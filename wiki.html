@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manasa's Wiki</title>
+    <meta name="author" content="Manasa">
+    <meta name="color-scheme" content="light dark">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #fbfbfb;
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        nav {
+            margin-bottom: 20px;
+        }
+        section {
+            margin-bottom: 15px;
+            background: rgb(142, 141, 136);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        figcaption {
+            color: #060606; /* Replace with your desired color */
+            font-size: 20px; /* You can also adjust the font size if needed */
+            font-weight: bold;
+        }
+        h1 {
+            cursor: pointer;
+            color: #000000;
+        }
+        h2 {
+            cursor: pointer;
+            color: #060606;
+        }
+        figure {
+            margin: 20px 0;
+            border: 1px solid #0d0d0d;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            text-align: center;
+            color: #777;
+        }
+        ol {
+            color: #333; /* Change this color as needed */
+        }
+        ol li {
+            color: #333; /* Change this color as needed */
+        }
+    </style>
+    <script>
+        function createTocFigure() {
+            let tocFigure = document.createElement("figure");
+            let tocFigCaption = document.createElement("figcaption");
+            tocFigCaption.innerText = "Table of Contents";
+            tocFigure.append(tocFigCaption);
+            return tocFigure;
+        }
+        function createTocListItem(href, linkText, level) {
+            let tocItemElem = document.createElement("li");
+            tocItemElem.style.marginLeft = `${(level - 1) * 20}px`; 
+            let anchorElem = document.createElement("a");
+            anchorElem.href = href;
+            anchorElem.innerText = linkText;
+            tocItemElem.append(anchorElem);
+            return tocItemElem;
+        }
+        function assignIdsToHeadings() {
+            document.querySelectorAll("h1, h2").forEach((heading, index) => {
+                if (!heading.id) {
+                    heading.id = "heading-" + index; 
+                }
+            });
+        }
+        function generateToc() {
+            let tocFigure = createTocFigure();
+            let tocElem = document.createElement("ol");
+            document.querySelectorAll("h1, h2").forEach((elem) => {
+                let level = parseInt(elem.tagName[1]); // Get heading level
+                tocElem.append(createTocListItem(`#${elem.id}`, elem.innerText, level));
+            });
+
+            tocFigure.append(tocElem); 
+            document.body.prepend(tocFigure); 
+        }
+        function toggleCollapse(heading) {
+            let parent = heading.parentElement; 
+            let isCollapsed = heading.getAttribute('aria-expanded') === 'false'; 
+
+            for (let child of parent.children) {
+                if (child !== heading) {
+                    child.style.display = isCollapsed ? 'block' : 'none';
+                }
+            }
+            heading.setAttribute('aria-expanded', isCollapsed);
+        }
+        function makeCollapsible(heading) {
+            heading.setAttribute('aria-expanded', 'false'); 
+            heading.style.cursor = 'pointer'; 
+            heading.addEventListener('click', () => toggleCollapse(heading));
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+            assignIdsToHeadings(); 
+            generateToc();
+            document.querySelectorAll("h1, h2").forEach(makeCollapsible);
+            document.querySelectorAll("h1 + section, h2 + section").forEach((section) => {
+                section.style.display = 'none';
+            });
+        });
+    </script>
+</head>
+<body>
+    
+
+    <section>
+        <h1 id="early-life" class="collapsible">Early Life</h1>
+        <p>My full name is Manasa Bathula. I was born in Hyderabad. Currently I'm pursuing undegraduation. My life is very simple.</p>
+    </section>
+
+    <section>
+        <h1 id="Education" class="collapsible">Education</h1>
+        <section>
+            <h2 id="schooling" class="collapsible">My Schooling</h2>
+            <p>My life at school is pretty interesting. I became topper student from average student. That feel being considered as a merit student used to be good. I with my friends used to do all naughty things and in the same time we used to study well. That made my school life so better.</p>
+        </section>
+        <section>
+            <h2 id="college-detail" class="collapsible">My College</h2>
+            <p>During my Intermediate days, I had no idea about my career. I didn't know what to choose next, so I concentrated on my studies.I just concentrated on my studies. I gave my EAMCET exam. I got good rank. So I decided to pursue Bachelors degree. I searched for colleges.</p>
+            <p>I searched for colleges. I got good rank but I decided to join in ACE Engineering College. I was impressed by it's greenery and scenery and Education is also good there. So i joined in that college. My college life went well. During these college days I had realises life is all about ups and downs.</p>
+        </section>
+    </section>
+
+    <section>
+        <h1 id="hobbies" class="collapsible">Hobbies</h1>
+        <p>In my free time, I enjoy painting, gardening, and exploring new things. I also love playing with my dog. I believe that hobbies are essential for a balanced life.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Manasa. All rights reserved.</p>
+    </footer>
+</body>
+</html>
